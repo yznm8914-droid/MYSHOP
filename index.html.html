@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GlowTech Shop — Smart Home & Mini Projectors</title>
+  <meta name="description" content="GlowTech Shop — viral smart‑home gadgets & mini projectors. Cash on Delivery / WhatsApp orders supported." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #0f1115; --card:#151823; --muted:#aab1c5; --text:#e7ebff; --brand:#7c5cff; --brand-2:#00e5b0; --accent:#1f2433;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#0d0f14 0%,#0b0d12 100%);color:var(--text)}
+    a{color:inherit;text-decoration:none}
+    .container{width:min(1100px,92vw);margin:0 auto}
+    header{position:sticky;top:0;backdrop-filter:blur(10px);background:rgba(10,12,18,.6);border-bottom:1px solid #1c2130;z-index:50}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.2px}
+    .logo-badge{width:34px;height:34px;border-radius:12px;background:linear-gradient(135deg,var(--brand),#2a7bff);display:grid;place-items:center;color:white}
+    .nav-actions{display:flex;align-items:center;gap:10px}
+    .btn{border:0;border-radius:12px;padding:10px 14px;font-weight:600;background:#1a1f2c;color:var(--text);cursor:pointer}
+    .btn:hover{background:#212637}
+    .btn.brand{background:linear-gradient(135deg,var(--brand),#5c8dff);color:white}
+    .btn.brand:hover{filter:brightness(1.05)}
+    .hero{display:grid;grid-template-columns:1.2fr 1fr;gap:26px;align-items:center;padding:40px 0}
+    .hero-card{background:linear-gradient(180deg,#131727,#101423);border:1px solid #23283a;border-radius:18px;padding:26px}
+    .hero h1{font-size:clamp(26px,3.5vw,44px);line-height:1.08;margin:0 0 10px}
+    .hero p{color:var(--muted);margin:0 0 18px}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .card{grid-column:span 4;background:linear-gradient(180deg,#141829,#0f1422);border:1px solid #23283a;border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+    .card img{width:100%;height:220px;object-fit:cover}
+    .card .content{padding:14px 14px 18px;display:flex;flex-direction:column;gap:10px}
+    .price{display:flex;align-items:center;gap:10px}
+    .price .now{font-size:18px;font-weight:700}
+    .price .was{color:#8b93ab;text-decoration:line-through;font-size:13px}
+    .badge{font-size:12px;padding:4px 8px;border-radius:999px;background:#1c2234;color:#b7c2ff;border:1px solid #28304a;display:inline-flex;gap:6px;align-items:center}
+    .flex{display:flex;gap:10px;align-items:center}
+    .grow{flex:1}
+    .footer{padding:30px 0;color:#9aa3bd;text-align:center;border-top:1px solid #1c2130;margin-top:40px}
+    .section-title{display:flex;align-items:center;justify-content:space-between;margin:20px 0 10px}
+    .mini{font-size:12px;color:#9aa3bd}
+    /* Cart Drawer */
+    .drawer{position:fixed;inset:0;pointer-events:none}
+    .overlay{position:absolute;inset:0;background:#0008;opacity:0;transition:.2s}
+    .panel{position:absolute;top:0;right:-400px;width:min(400px,92vw);height:100%;background:#0f1320;border-left:1px solid #23283a;transition:.25s;border-radius:0 0 0 12px;display:flex;flex-direction:column}
+    .drawer.open{pointer-events:auto}
+    .drawer.open .overlay{opacity:1}
+    .drawer.open .panel{right:0}
+    .cart-list{padding:14px;display:flex;flex-direction:column;gap:10px;overflow:auto}
+    .cart-item{display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:center;border:1px solid #23283a;border-radius:12px;padding:8px;background:#12172a}
+    .cart-item img{width:64px;height:64px;border-radius:8px;object-fit:cover}
+    .qty{display:flex;align-items:center;gap:6px}
+    .qty button{width:26px;height:26px;border-radius:8px;border:1px solid #2a3147;background:#161b2d;color:#cbd3ff;cursor:pointer}
+    .checkout{border-top:1px solid #23283a;padding:12px;display:flex;flex-direction:column;gap:10px}
+    .input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #273050;background:#12182b;color:#e7ebff}
+    .radio{display:flex;gap:10px;align-items:center}
+    .pill{padding:8px 12px;border-radius:999px;border:1px dashed #2b3450;color:#a8b1ce}
+    .hidden{display:none}
+    @media (max-width:880px){.hero{grid-template-columns:1fr}.card{grid-column:span 6}.hero-card{order:2}}
+    @media (max-width:620px){.card{grid-column:span 12}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="logo">
+        <div class="logo-badge">G</div>
+        <div>
+          <div>GlowTech</div>
+          <div style="font-size:12px;color:#9aa3bd;margin-top:-2px">Smart‑Home & Projectors</div>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <button class="btn" onclick="scrollToSection('products')">Products</button>
+        <button class="btn" onclick="scrollToSection('about')">About</button>
+        <button class="btn brand" id="openCartBtn">Cart (<span id="cartCount">0</span>)</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-card">
+        <div class="badge">✨ Viral gadgets · COD/WhatsApp orders</div>
+        <h1>Mini Projectors & Smart‑Home Glow Up</h1>
+        <p>Make any wall a cinema. Aesthetic lighting for gaming, study, and cozy vibes. Fast shipping via trusted suppliers. Cash on Delivery & WhatsApp orders available.</p>
+        <div class="flex">
+          <button class="btn brand" onclick="scrollToSection('products')">Shop Bestsellers</button>
+          <button class="btn" onclick="scrollToSection('about')">Why us?</button>
+        </div>
+      </div>
+      <div class="hero-card" style="padding:0;overflow:hidden">
+        <img src="https://images.unsplash.com/photo-1581349437898-4c1c7a2aa8b3?q=80&w=1200&auto=format&fit=crop" alt="Mini projector on table" style="width:100%;height:100%;object-fit:cover"/>
+      </div>
+    </section>
+
+    <section id="products">
+      <div class="section-title">
+        <h2 style="margin:0">Bestsellers</h2>
+        <div class="mini">Secure checkout • 7‑day returns</div>
+      </div>
+      <div class="grid" id="productGrid"></div>
+    </section>
+
+    <section id="about" style="margin:34px 0 10px">
+      <div class="hero-card">
+        <h3 style="margin:0 0 6px">About GlowTech</h3>
+        <p style="margin:0;color:#aab1c5">We curate trending, high‑quality smart‑home gadgets from vetted suppliers. Every product is tested for build, brightness, and durability. Orders ship directly from our partner warehouses. Questions? Chat with us on WhatsApp.</p>
+        <div class="flex" style="margin-top:12px">
+          <div class="pill">🛡️ Secure orders</div>
+          <div class="pill">🚚 Tracked shipping</div>
+          <div class="pill">💬 Fast support</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">© <span id="year"></span> GlowTech. All rights reserved.</div>
+  </main>
+
+  <!-- Cart Drawer -->
+  <div class="drawer" id="drawer">
+    <div class="overlay" id="overlay"></div>
+    <aside class="panel">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid #23283a">
+        <strong>🛒 Your Cart</strong>
+        <button class="btn" id="closeCartBtn">Close</button>
+      </div>
+      <div class="cart-list" id="cartList"></div>
+      <div class="checkout">
+        <strong>Checkout</strong>
+        <input class="input" id="name" placeholder="Full name" />
+        <input class="input" id="phone" placeholder="WhatsApp / Phone" />
+        <textarea class="input" id="address" placeholder="Address & City" rows="2"></textarea>
+        <div class="radio"><input type="radio" name="pay" id="cod" checked><label for="cod">Cash on Delivery (COD)</label></div>
+        <div class="radio"><input type="radio" name="pay" id="manual"><label for="manual">Manual Transfer</label></div>
+        <button class="btn brand" id="placeOrderBtn">Place Order</button>
+        <small style="color:#8e96b3">By ordering you agree to our terms. You will confirm the order on WhatsApp.</small>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    // ========================= CONFIG =========================
+    const STORE = {
+      name: 'GlowTech',
+      currency: 'USD',
+      whatsapp: 'YOUR_PHONE_WITH_COUNTRY_CODE', // e.g. 201234567890 (Egypt). Replace!
+      shippingFlat: 0, // set a number if you want to add shipping
+    };
+
+    const PRODUCTS = [
+      {
+        id: 'proj-mini',
+        title: 'Mini Portable Projector (1080p support)',
+        price: 59.99,
+        compareAt: 89.99,
+        image: 'https://images.unsplash.com/photo-1581349437898-4c1c7a2aa8b3?q=80&w=1200&auto=format&fit=crop',
+        badge: '🔥 Best Seller',
+        desc: 'Pocket‑size home theater. Up to 120” screen, HDMI/USB, quiet fan, perfect for movies and gaming setup.'
+      },
+      {
+        id: 'rgb-bars',
+        title: 'RGB Desk Light Bars (Pair)',
+        price: 29.99,
+        compareAt: 39.99,
+        image: 'https://images.unsplash.com/photo-1612441804637-7074ef18a94f?q=80&w=1200&auto=format&fit=crop',
+        badge: '🎮 Gamer Setup',
+        desc: 'Sync‑ready ambient light bars for your desk or TV. Multiple modes for study, chill, and gaming.'
+      },
+      {
+        id: 'led-strip',
+        title: 'Smart LED Strip (5m)',
+        price: 19.99,
+        compareAt: 29.99,
+        image: 'https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?q=80&w=1200&auto=format&fit=crop',
+        badge: '✨ Aesthetic',
+        desc: 'Bright 5050 LEDs with remote & app control. Transform any room in minutes.'
+      }
+    ];
+
+    // ========================= UTIL =========================
+    const $ = (sel, root=document)=>root.querySelector(sel);
+    const $$ = (sel, root=document)=>Array.from(root.querySelectorAll(sel));
+    const fmt = (n)=> new Intl.NumberFormat(undefined,{style:'currency',currency:STORE.currency}).format(n);
+
+    // ========================= RENDER PRODUCTS =========================
+    function renderProducts(){
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = '';
+      PRODUCTS.forEach(p=>{
+        const el = document.createElement('div');
+        el.className = 'card';
+        el.innerHTML = `
+          <img src="${p.image}" alt="${p.title}">
+          <div class="content">
+            <div class="flex" style="justify-content:space-between;align-items:start">
+              <strong>${p.title}</strong>
+              <span class="badge">${p.badge}</span>
+            </div>
+            <div style="color:#aab1c5;font-size:14px">${p.desc}</div>
+            <div class="price"><span class="now">${fmt(p.price)}</span> <span class="was">${fmt(p.compareAt)}</span></div>
+            <div class="flex">
+              <button class="btn brand" onclick="addToCart('${p.id}')">Add to Cart</button>
+              <button class="btn" onclick="quickBuy('${p.id}')">Buy Now</button>
+            </div>
+          </div>`;
+        grid.appendChild(el);
+      });
+    }
+
+    // ========================= CART LOGIC =========================
+    const CART_KEY = 'glowtech_cart_v1';
+    function loadCart(){ try{return JSON.parse(localStorage.getItem(CART_KEY)||'[]')}catch{return []} }
+    function saveCart(items){ localStorage.setItem(CART_KEY, JSON.stringify(items)); updateCount(); }
+    function updateCount(){ $('#cartCount').textContent = loadCart().reduce((a,b)=>a+b.qty,0); }
+
+    function addToCart(id, qty=1){
+      const items = loadCart();
+      const item = items.find(i=>i.id===id);
+      if(item) item.qty += qty; else {
+        const p = PRODUCTS.find(x=>x.id===id);
+        items.push({id, qty, price:p.price});
+      }
+      saveCart(items); openCart(); renderCart();
+    }
+    function removeFromCart(id){ saveCart(loadCart().filter(i=>i.id!==id)); renderCart(); }
+    function changeQty(id,delta){ const items=loadCart(); const it=items.find(i=>i.id===id); if(!it) return; it.qty=Math.max(1,it.qty+delta); saveCart(items); renderCart(); }
+
+    function renderCart(){
+      const list = $('#cartList');
+      const items = loadCart();
+      if(!items.length){ list.innerHTML = '<div style="color:#96a0be">Your cart is empty.</div>'; return; }
+      list.innerHTML = '';
+      let subtotal = 0;
+      items.forEach(it=>{
+        const p = PRODUCTS.find(x=>x.id===it.id);
+        const row = document.createElement('div');
+        row.className = 'cart-item';
+        subtotal += p.price * it.qty;
+        row.innerHTML = `
+          <img src="${p.image}" alt="${p.title}">
+          <div>
+            <div style="font-weight:600">${p.title}</div>
+            <div class="qty">
+              <button onclick="changeQty('${it.id}',-1)">-</button>
+              <span>${it.qty}</span>
+              <button onclick="changeQty('${it.id}',1)">+</button>
+              <span style="margin-left:10px;color:#9aa3bd">${fmt(p.price)}</span>
+            </div>
+          </div>
+          <button class="btn" onclick="removeFromCart('${it.id}')">Remove</button>`;
+        list.appendChild(row);
+      });
+      const shipping = STORE.shippingFlat||0;
+      const total = subtotal + shipping;
+      const summary = document.createElement('div');
+      summary.style.cssText='margin-top:6px;color:#c7cff4;font-weight:600';
+      summary.innerHTML = `Subtotal: ${fmt(subtotal)} · Shipping: ${fmt(shipping)} · <span style="color:#7ce0be">Total: ${fmt(total)}</span>`;
+      list.appendChild(summary);
+    }
+
+    // ========================= CHECKOUT =========================
+    function openCart(){ $('#drawer').classList.add('open'); }
+    function closeCart(){ $('#drawer').classList.remove('open'); }
+
+    function buildOrderMessage(){
+      const items = loadCart();
+      const lines = items.map(it=>{
+        const p = PRODUCTS.find(x=>x.id===it.id); return `• ${p.title} x${it.qty} = ${fmt(p.price*it.qty)}`; });
+      const subtotal = items.reduce((a,it)=> a + PRODUCTS.find(p=>p.id===it.id).price*it.qty, 0);
+      const shipping = STORE.shippingFlat||0; const total = subtotal+shipping;
+      const name = $('#name').value.trim();
+      const phone = $('#phone').value.trim();
+      const address = $('#address').value.trim();
+      const payMethod = $('#cod').checked? 'Cash on Delivery' : 'Manual Transfer';
+      const text = `New order — ${STORE.name}%0A`+
+        `Name: ${encodeURIComponent(name)}%0A`+
+        `Phone: ${encodeURIComponent(phone)}%0A`+
+        `Address: ${encodeURIComponent(address)}%0A`+
+        `Payment: ${encodeURIComponent(payMethod)}%0A%0A`+
+        `${encodeURIComponent(lines.join('%0A'))}%0A`+
+        `Shipping: ${encodeURIComponent(fmt(shipping))}%0A`+
+        `Total: ${encodeURIComponent(fmt(total))}`;
+      return {text, total};
+    }
+
+    function placeOrder(){
+      const items = loadCart();
+      if(!items.length){ alert('Your cart is empty.'); return; }
+      if(!$('#name').value.trim() || !$('#phone').value.trim() || !$('#address').value.trim()){
+        alert('Please fill name, phone, and address.'); return;
+      }
+      if(!STORE.whatsapp || STORE.whatsapp.includes('YOUR_PHONE')){
+        const {text} = buildOrderMessage();
+        navigator.clipboard.writeText(decodeURIComponent(text.replaceAll('%0A','\n'))).catch(()=>{});
+        alert('WhatsApp number is not set yet. Order details copied to clipboard. Paste into WhatsApp and send to your business number.');
+        return;
+      }
+      const {text} = buildOrderMessage();
+      const url = `https://wa.me/${STORE.whatsapp}?text=${text}`;
+      window.open(url, '_blank');
+    }
+
+    // ========================= INIT =========================
+    function scrollToSection(id){ document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
+    document.getElementById('year').textContent = new Date().getFullYear();
+    renderProducts(); updateCount(); renderCart();
+
+    document.getElementById('openCartBtn').addEventListener('click', openCart);
+    document.getElementById('closeCartBtn').addEventListener('click', closeCart);
+    document.getElementById('overlay').addEventListener('click', closeCart);
+    document.getElementById('placeOrderBtn').addEventListener('click', placeOrder);
+
+    // Expose quick buy
+    window.quickBuy = (id)=>{ addToCart(id); openCart(); };
+  </script>
+</body>
+</html>
